@@ -9,7 +9,7 @@ import ProfilePage from './pages/ProfilePage'
 import RegisterPage from './pages/RegisterPage'
 import WishlistPage from './pages/WishlistPage'
 import MainLayout from './layouts/MainLayout'
-
+import './App.css'
 
 const App = () => {
   return (
