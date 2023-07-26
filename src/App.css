@@ -64,3 +64,31 @@ footer {
     font-weight: 500;
     text-align: center;
 }
+
+/* REGISTER */
+.register-page {
+    /* calc is a fuction and 100vh is what we need and 140px is sum of ht of header(64px) and footer(80px) */
+    height: calc((100vh - 144px));
+    display: flex;
+    align-items: center;
+}
+
+.register-container {
+    max-width: 500px;
+    margin: auto;
+    padding: 10px;
+    width: 100%;
+    /* 👆 without widht:100% it will shrink */
+}
+
+.register-form {
+    padding: 20px 10px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    border-radius: 14px;
+}
+
+.register-form h1 {
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 20px;
+}
