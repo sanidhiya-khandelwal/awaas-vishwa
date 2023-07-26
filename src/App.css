@@ -52,8 +52,7 @@ header {
 /* FOOTER */
 footer {
     width: 100%;
-    height: 80px;
-    padding: 20px 10px 10px 10px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -61,14 +60,15 @@ footer {
 }
 
 .footer-text {
-    font-weight: 500;
+    font-size: 12px;
+    font-weight: 300;
     text-align: center;
 }
 
 /* REGISTER */
 .register-page {
-    /* calc is a fuction and 100vh is what we need and 140px is sum of ht of header(64px) and footer(80px) */
-    height: calc((100vh - 144px));
+    /* calc is a fuction and 100vh is what we need and 100px is sum of ht of header(64px) and footer(40px) */
+    height: calc((100vh - 104px));
     display: flex;
     align-items: center;
 }
