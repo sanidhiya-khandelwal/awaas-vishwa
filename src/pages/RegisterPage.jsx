@@ -9,9 +9,9 @@ const RegisterPage = () => {
     const username = React.useRef();
     const password = React.useRef();
 
-    const handleSubmit = (ev) => {
+    const handleSubmit = async (ev) => {
         ev.preventDefault(); //stops reloading
-        console.log(name.current.value + ' ' + phone.current.value + ' ' + email.current.value + ' ' + username.current.value + ' ' + password.current.value);
+        // console.log(name.current.value + ' ' + phone.current.value + ' ' + email.current.value + ' ' + username.current.value + ' ' + password.current.value);
         const nameVal = name.current.value;
         const phoneVal = Number(phone.current.value); //phone.current.value is string so converting to NUMBER
         const emailVal = email.current.value;
@@ -53,7 +53,32 @@ const RegisterPage = () => {
             alert('password should have minimum of eight characters, at least one uppercase letter, one lowercase letter, one number and one special character:', 'error')
             return
         }
+        // console.log(import.meta.env);
 
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/v1/auth/register`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: nameVal,
+                phone: phoneVal,
+                email: emailVal,
+                username: usernameVal,
+                password: passwordVal
+            })
+        })
+        console.log(response);
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data);
+            alert('User Registered', 'success')
+        }
+        else {
+            const data = await response.json();
+            console.log('data', data);
+            alert(data, 'error')
+        }
     };
 
     return (
@@ -62,11 +87,11 @@ const RegisterPage = () => {
                 <div className="register-form">
                     <h1>Sign Up</h1>
                     <form onSubmit={handleSubmit}>
-                        <TextField fullWidth id="filled-basic" variant="filled" label="Full Name" inputRef={name} required /> {/*used inputRef instead of ref coz we using mui*/}
-                        <TextField fullWidth id="filled-basic" variant="filled" label="Phone Number" type='number' inputRef={phone} required />
-                        <TextField fullWidth id="filled-basic" variant="filled" label="Email" inputRef={email} required />
-                        <TextField fullWidth id="filled-basic" variant="filled" label="User Name" inputRef={username} required />
-                        <TextField fullWidth id="filled-basic" variant="filled" label="Password" type='password' inputRef={password} required />
+                        <TextField fullWidth id="filled-basic" variant="filled" label="Full Name" inputRef={name} required autoComplete='true' /> {/*used inputRef instead of ref coz we using mui*/}
+                        <TextField fullWidth id="filled-basic" variant="filled" label="Phone Number" type='number' inputRef={phone} required autoComplete='true' />
+                        <TextField fullWidth id="filled-basic" variant="filled" label="Email" inputRef={email} required autoComplete='true' />
+                        <TextField fullWidth id="filled-basic" variant="filled" label="User Name" inputRef={username} required autoComplete='true' />
+                        <TextField fullWidth id="filled-basic" variant="filled" label="Password" type='password' inputRef={password} required autoComplete='true' />
                         <Button variant='contained' sx={{ marginTop: '20px' }} type='submit'>Sign Up</Button>
                     </form>
                 </div>
