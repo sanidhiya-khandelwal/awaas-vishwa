@@ -1,8 +1,10 @@
 import { Button, TextField } from '@mui/material'
 import React from 'react'
 import alert from '../utility/alert';
+import { Navigate } from 'react-router-dom';
 
 const RegisterPage = () => {
+    const [redirect, setRedirect] = React.useState(false);//redirect 1
     const name = React.useRef();
     const phone = React.useRef();
     const email = React.useRef();
@@ -18,41 +20,41 @@ const RegisterPage = () => {
         const usernameVal = username.current.value;
         const passwordVal = password.current.value;
 
-        const mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        const usernameFormat = /^[A-Za-z][A-Za-z0-9_]{1,29}$/
-        const passwordFormat = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        // const mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        // const usernameFormat = /^[A-Za-z][A-Za-z0-9_]{1,29}$/
+        // const passwordFormat = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
 
-        if (nameVal.length < 2 || nameVal.length > 50) {
-            // we made this alert in alert.js which takes mssg and fucntion  
-            alert('Name should be greater than 1 and less than equal 50 characters', 'error')
-            return //used return so that it should not show all validations at one time
-        }
+        // if (nameVal.length < 2 || nameVal.length > 50) {
+        // we made this alert in alert.js which takes mssg and fucntion  
+        //    alert('Name should be greater than 1 and less than equal 50 characters', 'error')
+        //    return //used return so that it should not show all validations at one time
+        //}
 
-        if (phoneVal < 1000000000) {
-            alert('Invalid Phone Number', 'error')
-            return
-        }
+        // if (phoneVal < 1000000000) {
+        //     alert('Invalid Phone Number', 'error')
+        //     return
+        // }
 
-        if (!mailformat.test(emailVal)) {
-            alert('Invalid email', 'error')
-            return
-        }
+        // if (!mailformat.test(emailVal)) {
+        //     alert('Invalid email', 'error')
+        //     return
+        // }
 
-        if (usernameVal.length < 3 || usernameVal.length > 30) {
-            alert('Username should be greater than 2 and less than equals 30 characters', 'error')
-            return
-        }
+        // if (usernameVal.length < 3 || usernameVal.length > 30) {
+        //     alert('Username should be greater than 2 and less than equals 30 characters', 'error')
+        //     return
+        // }
 
-        if (!usernameFormat.test(usernameVal)) {
-            alert('Invalid username! first character should be alphabet [A-Za-z] and other characters can be alphabets, numbers or an underscore so, [A-Za-z0-9_].', 'error')
-            return
-        }
+        // if (!usernameFormat.test(usernameVal)) {
+        //     alert('Invalid username! first character should be alphabet [A-Za-z] and other characters can be alphabets, numbers or an underscore so, [A-Za-z0-9_].', 'error')
+        //     return
+        // }
 
-        if (!passwordFormat.test(passwordVal)) {
-            alert('password should have minimum of eight characters, at least one uppercase letter, one lowercase letter, one number and one special character:', 'error')
-            return
-        }
+        // if (!passwordFormat.test(passwordVal)) {
+        //     alert('password should have minimum of eight characters, at least one uppercase letter, one lowercase letter, one number and one special character:', 'error')
+        //     return
+        // }
         // console.log(import.meta.env);
 
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/v1/auth/register`, {
@@ -73,6 +75,7 @@ const RegisterPage = () => {
             const data = await response.json();
             console.log(data);
             alert('User Registered', 'success')
+            setRedirect(true) //redirect 2
         }
         else {
             const data = await response.json();
@@ -80,7 +83,9 @@ const RegisterPage = () => {
             alert(data, 'error')
         }
     };
-
+    if (redirect) { //redirect 3
+        return <Navigate to={'/login'} /> //redirect 4
+    }
     return (
         <div className="register-page">
             <div className="register-container">
