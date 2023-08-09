@@ -1,10 +1,13 @@
 import { Button, TextField } from '@mui/material'
+import { UserContext } from '../context/UserContext';//Context 1
 import React from 'react'
 import alert from '../utility/alert';
 import { Link, Navigate } from 'react-router-dom';
 
 
 const LoginPage = () => {
+    const { setUserInfo } = React.useContext(UserContext); //Context 2
+
     const [redirect, setRedirect] = React.useState(false)//redirect1
     const username = React.useRef();
     const password = React.useRef();
@@ -33,7 +36,8 @@ const LoginPage = () => {
             // console.log(data);
             // alert('User Logged in', 'success')
             alert(data.success, 'success')
-            // console.log('data ', data);
+            // console.log('data ', data.success);
+            setUserInfo(data.data)
             setRedirect(true) //redirect 2
         }
         else {
