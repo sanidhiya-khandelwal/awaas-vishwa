@@ -4,7 +4,17 @@ import { UserContext } from '../../context/UserContext' //UC1
 import Logo from '../../assets/logo.png'
 import { Link } from 'react-router-dom'
 const Header = () => {
-    const { userInfo } = React.useContext(UserContext)//UC2
+    //   const { userInfo } = React.useContext(UserContext)//UC2
+    const { userInfo, setUserInfo } = React.useContext(UserContext)//UC2
+
+    const logoutUser = () => {
+        fetch(`${import.meta.env.VITE_BASE_URL}/api/v1/auth/logout`, {
+            credentials: 'include',
+            method: 'POST',
+        })
+        setUserInfo(null);
+    }
+
     return (
         <header>
             <div className="header-container">
@@ -20,7 +30,7 @@ const Header = () => {
                             userInfo ? (
                                 <>
                                     <Link to='/login'>Create Post</Link>
-                                    <Link>Logout</Link>
+                                    <Link onClick={logoutUser}>Logout</Link>
                                 </>
                             ) : (
                                 <>
