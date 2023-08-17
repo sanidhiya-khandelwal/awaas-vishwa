@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 // import '../../App.css'
 import { UserContext } from '../../context/UserContext' //UC1
 import Logo from '../../assets/logo.png'
@@ -14,6 +14,16 @@ const Header = () => {
         })
         setUserInfo(null);
     }
+
+
+    // console.log('User info ', userInfo);
+    useEffect(() => {
+        fetch(`${import.meta.env.VITE_BASE_URL}/api/v1/auth/profile`, {
+            credentials: 'include'
+        })
+            .then(res => res.json())
+            .then(data => setUserInfo(data.data))
+    }, [])
 
     return (
         <header>
