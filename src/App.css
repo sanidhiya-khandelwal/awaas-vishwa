@@ -94,3 +94,64 @@ footer {
     text-align: center;
     margin-bottom: 20px;
 }
+
+/* 
+* CREATE AD PAGE
+ */
+
+.create-ad-page {
+    /* calc is a fuction and 100vh is what we need and 100px is sum of ht of header(64px) and footer(40px) */
+    height: calc((100vh - 104px));
+    display: flex;
+    align-items: center;
+}
+
+.create-ad-container {
+    max-width: 500px;
+    margin: auto;
+    padding: 10px;
+    width: 100%;
+    /* 👆 without widht:100% it will shrink */
+}
+
+.create-ad-form {
+    padding: 20px 10px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    border-radius: 14px;
+}
+
+.create-ad-form h1 {
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.create-ad-form input::file-selector-button {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #1876d2;
+    padding: 0.5em;
+    border: thin solid grey;
+    border-radius: 3px;
+}
+
+/* 
+*
+*/
+.create-ad-img-container {
+    margin-top: 10px;
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+}
+
+.create-ad-img-input {
+    margin-bottom: 10px;
+}
+
+.create-ad-img {}
+
+.create-ad-img img {
+    max-width: 100px;
+    max-height: 100px;
+}
