@@ -1,17 +1,24 @@
 import React from 'react'
 import { itemDateFormatter } from '../utility/dateUtils';
 import { Button } from '@mui/material';
-import alert from '../utility/alert'
+// import alert from '../utility/alert'
 
 const HomePage = () => {
     // let pageNo = 1;
     const [pageNo, setPageNo] = React.useState(1);
     const [itemList, setItemList] = React.useState([]);
+    const [noMoreItems, setNoMoreItems] = React.useState(false); //load more disable 1
     React.useEffect(() => {
         fetch(`${import.meta.env.VITE_BASE_URL}/api/v1/items?page=${pageNo}`)
             .then(response => response.json())
             .then(data => {
-                setItemList(data.data)
+                if (data.data.length > 0) {
+                    setItemList(data.data)
+                }
+                else {
+                    setNoMoreItems(true); //load more disable 2
+                    // alert('No Item Exists', 'error')
+                }
             })
     }, [])
     // console.log('itemList ', itemList);
@@ -25,7 +32,8 @@ const HomePage = () => {
                     setItemList([...itemList, ...data.data])
                 }
                 else {
-                    alert('No more item', 'error')
+                    setNoMoreItems(true) //load more disable 3
+                    // alert('No more item', 'error')
                 }
             });
         setPageNo(pageNo + 1);
@@ -40,7 +48,19 @@ const HomePage = () => {
                 }
             </div>
             <div className="next-page">
-                <Button variant="contained" onClick={getNewPage}>Load More</Button>
+                {
+                    noMoreItems ?
+                        <Button variant="contained" //load more disable 4
+                            disabled>
+                            No More Items
+                        </Button>
+                        :
+                        <Button variant="contained" //load more disable 5
+                            onClick={getNewPage}>
+                            Load More
+                        </Button>
+                }
+
             </div>
         </>
 
