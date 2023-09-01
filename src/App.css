@@ -2,6 +2,8 @@
 * HEADER
 */
 header {
+    position: sticky;
+    top: 0;
     height: 64px;
     background: #fff;
     box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
@@ -51,8 +53,8 @@ header {
 
 /* FOOTER */
 footer {
-    position: fixed;
-    bottom: 0;
+    /* position: fixed;
+    bottom: 0; */
     width: 100%;
     height: 40px;
     display: flex;
@@ -252,7 +254,7 @@ HOME PAGE
 }
 
 .next-page {
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     display: flex;
     justify-content: center;
 }
