@@ -75,8 +75,6 @@ header {
 
 /* FOOTER */
 footer {
-    /* position: fixed;
-    bottom: 0; */
     width: 100%;
     height: 40px;
     display: flex;
@@ -125,7 +123,8 @@ footer {
 
 .create-ad-page {
     /* calc is a fuction and 100vh is what we need and 100px is sum of ht of header(64px) and footer(40px) */
-    height: calc((100vh - 104px));
+    /* height: calc((100vh - 104px)); */
+    min-height: calc((100vh - 104px));
     display: flex;
     align-items: center;
 }
@@ -301,7 +300,7 @@ HOME PAGE
     padding: 10px;
     display: flex;
     gap: 20px;
-    min-height: calc(100vh-60px);
+    min-height: calc(100vh-100px);
 }
 
 .item-detail-imgs,
