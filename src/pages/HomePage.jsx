@@ -1,6 +1,8 @@
 import React from 'react'
 import { itemDateFormatter } from '../utility/dateUtils';
 import { Button } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { numberToCommaString } from '../utility/numberUtils';
 // import alert from '../utility/alert'
 
 const HomePage = () => {
@@ -73,28 +75,30 @@ const ItemCard = ({ id, title, imgList, listType, location, price, createdAt }) 
 
     return (
         <div className="item-card-container">
-            <div className="item-card">
-                <div className="item-card-imgs">
-                    {/* <img src={imgList[0]} /> */}{/**FOR SINGLE IMAGE */}
-                    {
-                        imgList.length > 0
-                            ? (imgList.map(img => <img src={img} />))
-                            : <div>No Image</div>
-                    }
+            <Link to={`/item/${id}`}>
+                <div className="item-card">
+                    <div className="item-card-imgs">
+                        {/* <img src={imgList[0]} /> */}{/**FOR SINGLE IMAGE */}
+                        {
+                            imgList.length > 0
+                                ? (imgList.map(img => <img src={img} />))
+                                : <div>No Image</div>
+                        }
+                    </div>
+                    <div className="img-card-body">
+                        <div className="img-card-price">₹ {numberToCommaString(price)}</div>
+                        <div className="img-card-title">{title}</div>
+                        <div className="img-card-location">{location}</div>
+                        {/* <div className="img-card-row-space-between"> */}
+                        {/* </div> */}
+                    </div>
+                    <div className="img-card-footer">
+                        <div>{listType}</div>
+                        {/* <div>{createdAt}</div> */}
+                        <div>{itemDateFormatter(createdAt)}</div> {/*date 4*/}
+                    </div>
                 </div>
-                <div className="img-card-body">
-                    <div className="img-card-price">₹ {price}</div>
-                    <div className="img-card-title">{title}</div>
-                    <div className="img-card-location">{location}</div>
-                    {/* <div className="img-card-row-space-between"> */}
-                    {/* </div> */}
-                </div>
-                <div className="img-card-footer">
-                    <div>{listType}</div>
-                    {/* <div>{createdAt}</div> */}
-                    <div>{itemDateFormatter(createdAt)}</div> {/*date 4*/}
-                </div>
-            </div>
+            </Link>
         </div>
     )
 }
