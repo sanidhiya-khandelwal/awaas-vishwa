@@ -380,3 +380,14 @@ HOME PAGE
         width: 100%;
     }
 }
+
+/* login btn in signup form */
+#login-link {
+    margin-top: 10px;
+}
+
+.login-btn {
+    font-size: 16px;
+    font-weight: 600;
+    display: inline;
+}

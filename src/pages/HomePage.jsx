@@ -12,8 +12,8 @@ const HomePage = () => {
     const [noMoreItems, setNoMoreItems] = React.useState(false); //load more disable 1
     React.useEffect(() => {
         fetch(`${import.meta.env.VITE_BASE_URL}/api/v1/items?page=${pageNo}`)
-            .then(response => response.json())
-            .then(data => {
+            .then((response) => response.json())
+            .then((data) => {
                 if (data.data.length > 0) {
                     setItemList(data.data)
                 }
@@ -28,10 +28,10 @@ const HomePage = () => {
     const getNewPage = () => {
         // pageNo++;
         fetch(`${import.meta.env.VITE_BASE_URL}/api/v1/items?page=${pageNo + 1}`)
-            .then(response => response.json())
-            .then(data => {
+            .then((response) => response.json())
+            .then((data) => {
                 if (data.data.length > 0) {
-                    setItemList([...itemList, ...data.data])
+                    setItemList([...itemList, ...data.data]);
                 }
                 else {
                     setNoMoreItems(true) //load more disable 3
@@ -52,27 +52,21 @@ const HomePage = () => {
             <div className="next-page">
                 {
                     noMoreItems ?
-                        <Button variant="contained" //load more disable 4
-                            disabled>
+                        <Button variant="contained" disabled> {/*//load more disable 4*/}
                             No More Items
                         </Button>
                         :
-                        <Button variant="contained" //load more disable 5
-                            onClick={getNewPage}>
+                        <Button variant="contained" onClick={getNewPage}> {/*//load more disable 5 */}
                             Load More
                         </Button>
                 }
-
             </div>
         </>
-
     )
 }
 const ItemCard = ({ id, title, imgList, listType, location, price, createdAt }) => {
     // const formattedCreatedTime = new Date(createdAt).toLocaleDateString();
     // console.log(formattedCreatedTime);
-
-
     return (
         <div className="item-card-container">
             <Link to={`/item/${id}`}>
@@ -82,7 +76,7 @@ const ItemCard = ({ id, title, imgList, listType, location, price, createdAt }) 
                         {
                             imgList.length > 0
                                 ? (imgList.map(img => <img src={img} />))
-                                : <div>No Image</div>
+                                : (<div>No Image</div>)
                         }
                     </div>
                     <div className="img-card-body">
@@ -103,4 +97,4 @@ const ItemCard = ({ id, title, imgList, listType, location, price, createdAt }) 
     )
 }
 
-export default HomePage
+export default HomePage;

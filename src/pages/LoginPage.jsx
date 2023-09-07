@@ -59,6 +59,10 @@ const LoginPage = () => {
                         <TextField fullWidth id="filled-basic" variant="filled" label="Password" type='password' inputRef={password} required autoComplete='true' />
                         <Button variant='contained' sx={{ marginTop: '20px' }} type='submit'>Login</Button>
                         {/* <Link to={'/register'} className=''>Register User</Link> */}
+                        <div id="login-link">Create a new account ? <Link to='/register'>
+                            <Button className="login-btn" variant="contained">Register</Button>
+                        </Link>
+                        </div>
                     </form>
                 </div>
             </div>

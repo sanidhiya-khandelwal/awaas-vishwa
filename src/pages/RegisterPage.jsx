@@ -1,7 +1,7 @@
 import { Button, TextField } from '@mui/material'
 import React from 'react'
 import alert from '../utility/alert';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 
 const RegisterPage = () => {
     const [redirect, setRedirect] = React.useState(false);//redirect 1
@@ -70,7 +70,7 @@ const RegisterPage = () => {
                 password: passwordVal
             })
         })
-        console.log(response);
+        // console.log(response);
         if (response.ok) {
             const data = await response.json();
             console.log(data);
@@ -98,6 +98,10 @@ const RegisterPage = () => {
                         <TextField fullWidth id="filled-basic" variant="filled" label="User Name" inputRef={username} required autoComplete='true' />
                         <TextField fullWidth id="filled-basic" variant="filled" label="Password" type='password' inputRef={password} required autoComplete='true' />
                         <Button variant='contained' sx={{ marginTop: '20px' }} type='submit'>Sign Up</Button>
+                        <div id="login-link">Already have an account ? <Link to='/login'>
+                            <Button className="login-btn" variant="contained">Login</Button>
+                        </Link>
+                        </div>
                     </form>
                 </div>
             </div>
