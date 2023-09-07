@@ -1,27 +1,67 @@
 import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 import Loading from '../components/util/Loading';
 import { itemDateFormatter } from '../utility/dateUtils'
 import { Button } from '@mui/material';
 import { numberToCommaString } from '../utility/numberUtils';
+import { UserContext } from '../context/UserContext';
+import alert from '../utility/alert'
+
 const ItemDetailPage = () => {
+    const { userInfo } = React.useContext(UserContext);
+    const [redirectToLogin, setRedirectToLogin] = React.useState(false);
     const { itemId } = useParams();
     // console.log(itemId);
     const [itemDetails, setItemDetails] = React.useState();
+    const [disableInterestBtn, setDisableInterestBtn] = React.useState(false);
 
     useEffect(() => {
         fetch(`${import.meta.env.VITE_BASE_URL}/api/v1/items/${itemId}`)
-            .then(response => response.json())
-            .then(data => {
+            .then((response) => response.json())
+            .then((data) => {
                 if (data.data) {
                     setItemDetails(data.data)
                 }
                 else {
-
+                    console.log('else ');
                 }
             })
     }, [])
-    console.log(itemDetails);
+
+    const handleContact = () => {
+        if (!userInfo) {
+            setRedirectToLogin(true);
+            alert('User not logged in, please login to contact', 'error')
+            return;
+        }
+        //api request to send email to the author
+        fetch(`${import.meta.env.VITE_BASE_URL}/api/v1/items/lead`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                itemId: itemId
+            }),
+            credentials: 'include',
+        }).then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                if (data.success) {
+                    alert(data.success, 'success')
+                    setDisableInterestBtn(true)
+                }
+                if (data.error) {
+                    alert(data.error, 'error')
+                    setDisableInterestBtn(true)
+                }
+            });
+    }
+
+    if (redirectToLogin) {
+        return <Navigate to='/login' />
+    }
+    // console.log(itemDetails);
     if (!itemDetails) {
         return <Loading />
     }
@@ -48,8 +88,12 @@ const ItemDetailPage = () => {
                     <div className="item-detail-author-name">
                         {itemDetails.author.name}
                     </div>
-                    <div className="item-detail-author-name">
-                        <Button variant='contained'>Contact</Button>
+                    <div className="item-detail-author-contact">
+                        {
+                            disableInterestBtn ?
+                                <Button variant='contained' disabled>Interested</Button> :
+                                <Button variant='contained' onClick={handleContact}>Send Interest</Button>
+                        }
                     </div>
                 </div>
                 <div className="item-detail-description">
