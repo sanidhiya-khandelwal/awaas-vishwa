@@ -21,8 +21,8 @@ const Header = () => {
         fetch(`${import.meta.env.VITE_BASE_URL}/api/v1/auth/profile`, {
             credentials: 'include'
         })
-            .then(res => res.json())
-            .then(data => setUserInfo(data.data))
+            .then((res) => res.json())
+            .then((data) => setUserInfo(data.data))
     }, [])
 
     return (

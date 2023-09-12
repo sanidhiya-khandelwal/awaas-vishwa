@@ -209,8 +209,8 @@ function CreateAdImgGallery({ imagePaths }) {
                 imagePaths && (
                     <div className="create-ad-img-container">
                         {
-                            imagePaths.map((imgPath) => (
-                                <div className="create-ad-img">
+                            imagePaths.map((imgPath, idx) => (
+                                <div key={idx} className="create-ad-img">
                                     <img src={imgPath} alt="" />
                                 </div>
                             ))

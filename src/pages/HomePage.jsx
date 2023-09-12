@@ -75,7 +75,7 @@ const ItemCard = ({ id, title, imgList, listType, location, price, createdAt }) 
                         {/* <img src={imgList[0]} /> */}{/**FOR SINGLE IMAGE */}
                         {
                             imgList.length > 0
-                                ? (imgList.map(img => <img src={img} />))
+                                ? (imgList.map((img, idx) => <img src={img} key={idx} />))
                                 : (<div>No Image</div>)
                         }
                     </div>
