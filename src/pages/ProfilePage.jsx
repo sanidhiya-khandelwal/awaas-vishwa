@@ -5,6 +5,8 @@ import LogoutIcon from '@mui/icons-material/Logout'
 import { Switch } from '@mui/material'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { Link } from 'react-router-dom'
+import { numberToCommaString } from '../utility/numberUtils.js'
 
 const ProfilePage = () => {
     const { userInfo, setUserInfo } = React.useContext(UserContext)
@@ -18,25 +20,49 @@ const ProfilePage = () => {
 }
 
 const Profile = () => {
+    const { userInfo, setUserInfo } = React.useContext(UserContext)
+    const [profileDetails, setProfileDetails] = useState(null)
+    const [adList, setAdList] = useState(null);
     const [toggleAdList, setToogleAdList] = useState(false)
+
     useEffect(() => {
         fetch(`${import.meta.env.VITE_BASE_URL}/api/v1/profile-settings`, {
             credentials: 'include'
         })
+            .then(response => response.json())
+            .then(data => {
+                setProfileDetails(data.data.profileDetail);
+                setAdList(data.data.adList);
+            })
     }, []);
+
+    const logoutUser = () => {
+        fetch(`${import.meta.env.VITE_BASE_URL}/api/v1/auth/logout`, {
+            credentials: 'include',
+            method: 'POST',
+        })
+        setUserInfo(null);
+    }
 
     return (
         <div className='profile-container'>
             <div className="profile-header">
                 <div className="profile-img">
-                    S
+
+                    {
+
+                        profileDetails ? profileDetails.name[0] : 'A'
+                    }
                 </div>
-                <div className="profile-email">
-                    Sanidhya@gmail.com
-                </div>
-                <div className="profile-phone">
-                    9124667899
-                </div>
+                {
+                    profileDetails && (
+                        <>
+                            <div className="profile-name">{profileDetails.name}</div>
+                            <div className="profile-email">{profileDetails.email}</div>
+                            <div className="profile-phone">{profileDetails.phone}</div>
+                        </>
+                    )}
+
             </div>
             <div className="settings">
                 <div className="settings-header">Settings</div>
@@ -44,7 +70,7 @@ const Profile = () => {
                     <span>Dark Mode</span><Switch defaultChecked />
                 </div>
                 <div className="settings-item">
-                    <span>Logout</span><LogoutIcon style={{ fontSize: '28px' }} />
+                    <span>Logout</span><LogoutIcon style={{ fontSize: '28px' }} onClick={logoutUser} />
                 </div>
             </div>
             <div className="profile-ad-listing">
@@ -56,41 +82,51 @@ const Profile = () => {
 
                 </div>
                 {
-                    toggleAdList && (
+                    toggleAdList && (adList.length > 0 ? (
                         <div className="profile-ad-list">
-                            <ProfileAdItem />
-                            <ProfileAdItem />
-                            <ProfileAdItem />
-                            <ProfileAdItem />
-                            <ProfileAdItem />
-                            <ProfileAdItem />
-                            <ProfileAdItem />
-                            <ProfileAdItem />
+                            {
+                                adList.map((ad, index) =>
+                                    <ProfileAdItem
+                                        key={ad.id}
+                                        adId={ad.id}
+                                        listType={ad.listType}
+                                        location={ad.location}
+                                        price={ad.price}
+                                        title={ad.title}
+                                        img={ad.img}
+                                    />)
+                            }
                         </div>
-                    )
+                    ) : (
+                        <div className="profile-ad-no-item">
+                            No Item
+                        </div>
+                    ))
                 }
 
             </div>
         </div>
     )
 }
-const ProfileAdItem = ({ }) => {
+const ProfileAdItem = ({ adId, listType, location, price, title, img }) => {
     return (
-        <div className="profile-ad-item">
-            <div className="profile-ad-item-left">
-                <div className="profile-ad-item-img">
-                    <img src="https://firebasestorage.googleapis.com/v0/b/awaas-vishwa-35e28.appspot.com/o/ad-imgs%2Fbf1ecdd5-11f2-41c0-be46-ae94336cb726.avif?alt=media&token=dba604fb-6363-4066-aef8-4eb833384749" alt="" />
+        <Link to={'/item/' + adId}>
+            <div className="profile-ad-item">
+                <div className="profile-ad-item-left">
+                    <div className="profile-ad-item-img">
+                        <img src={img} alt="" />
+                    </div>
+                </div>
+                <div className="profile-ad-item-right">
+                    <div className="profile-ad-item-header">{title}</div>
+                    <div className="profile-ad-item-location">{location}</div>
+                    <div className="profile-ad-item-price-type">
+                        <div className="profile-ad-item-type">{listType}</div>
+                        <div className="profile-ad-item-price">Rs {numberToCommaString(price)}/-</div>
+                    </div>
                 </div>
             </div>
-            <div className="profile-ad-item-right">
-                <div className="profile-ad-item-header">Newly Constructed building in gurgaon</div>
-                <div className="profile-ad-item-location">Gurgaon,Haryana,NCR</div>
-                <div className="profile-ad-item-price-type">
-                    <div className="profile-ad-item-price">1,80,00,000</div>
-                    <div className="profile-ad-item-type">SELL</div>
-                </div>
-            </div>
-        </div>
+        </Link>
     )
 }
 export default ProfilePage
