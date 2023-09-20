@@ -3,6 +3,7 @@ import { itemDateFormatter } from '../utility/dateUtils';
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { numberToCommaString } from '../utility/numberUtils';
+import Filters from '../components/pages/HomePage/Filters';
 // import alert from '../utility/alert'
 
 const HomePage = () => {
@@ -10,8 +11,19 @@ const HomePage = () => {
     const [pageNo, setPageNo] = React.useState(1);
     const [itemList, setItemList] = React.useState([]);
     const [noMoreItems, setNoMoreItems] = React.useState(false); //load more disable 1
+    const [filters, setFilters] = React.useState({})
+    console.log(filters);
+
+    const getFiltersQuery = () => {
+
+        console.log('1');
+        return Object.keys(filters).length > 0 ? '&' + (Object.keys(filters).map(key => `${key}=${filters[key]}`).join('&')) : ''
+    }
+
     React.useEffect(() => {
-        fetch(`${import.meta.env.VITE_BASE_URL}/api/v1/items?page=${pageNo}`)
+        setPageNo(1)
+        // fetch(`${import.meta.env.VITE_BASE_URL}/api/v1/items?page=1&type=${filters.type}&propertyType=${filters.propertyType} `)
+        fetch(`${import.meta.env.VITE_BASE_URL}/api/v1/items?page=1${getFiltersQuery()} `)
             .then((response) => response.json())
             .then((data) => {
                 if (data.data.length > 0) {
@@ -22,12 +34,12 @@ const HomePage = () => {
                     // alert('No Item Exists', 'error')
                 }
             })
-    }, [])
+    }, [filters])
     // console.log('itemList ', itemList);
     //LOAD MORE FUNCTIONALITY
     const getNewPage = () => {
         // pageNo++;
-        fetch(`${import.meta.env.VITE_BASE_URL}/api/v1/items?page=${pageNo + 1}`)
+        fetch(`${import.meta.env.VITE_BASE_URL}/api/v1/items?page=${pageNo + 1}${getFiltersQuery()}`)
             .then((response) => response.json())
             .then((data) => {
                 if (data.data.length > 0) {
@@ -42,6 +54,8 @@ const HomePage = () => {
     }
     return (
         <>
+            <Filters filters={filters} setFilters={setFilters} />
+
             <div className='item-list'>
                 {
                     itemList.length > 0 && itemList.map(
