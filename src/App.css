@@ -214,6 +214,17 @@ footer,
 /* 
 HOME PAGE
  */
+.filters {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.filters-type-list {
+    display: flex;
+    gap: 10px;
+}
+
 .item-list {
     /* border: 2px solid black; */
     max-width: 1200px;

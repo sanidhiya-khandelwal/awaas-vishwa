@@ -47,7 +47,8 @@ const LoginPage = () => {
         }
     };
     if (redirect) {
-        return <Navigate to={'/'} />
+        window.history.back();
+        //return <Navigate to={'/'} />
     }
     return (
         <div className="register-page">
